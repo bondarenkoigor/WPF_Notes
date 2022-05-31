@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_Notepad" xmlns:viewmodel="clr-namespace:WPF_Notepad.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindow__ViewModel}"
+        xmlns:local="clr-namespace:WPF_Notepad" xmlns:viewmodel="clr-namespace:WPF_Notepad.ViewModel" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" d:DataContext="{d:DesignInstance Type=viewmodel:MainWindow__ViewModel}"
         mc:Ignorable="d"
-        Title="Notepad" Height="450" Width="800"
+        Title="Notes" Height="450" Width="800"
         Closing="Window_Closing">
 
     <Grid>
@@ -19,9 +19,9 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Margin="20,0,0,0" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <TextBox Margin="35,2,0,0" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Cursor="Arrow"></TextBox>
 
-        <ListBox Grid.Column="0" Margin="0,20,0,0" ItemsSource ="{Binding Notes}" SelectedItem="{Binding SelectedNote}" Grid.RowSpan="2" HorizontalAlignment="Stretch">
+        <ListBox Grid.Column="0" Margin="0,30,0,0" ItemsSource ="{Binding Notes}" SelectedItem="{Binding SelectedNote}" Grid.RowSpan="2" HorizontalAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -33,25 +33,30 @@
         </ListBox>
 
         <StackPanel Grid.Column="1" DataContext="{Binding SelectedNote}" Grid.RowSpan="2">
-            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="Wrap"></TextBox>
-            <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextAlignment="Center"  TextWrapping="Wrap" Margin="0,25,0,0"></TextBox>
+            <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Padding="15,0,15,0" TextAlignment="Center" TextWrapping="Wrap" Margin="200,100,200,0" Cursor="Arrow" FontFamily="Microsoft Sans Serif" FontSize="25"></TextBox>
+            <TextBox Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Padding="50,0,50,0" TextAlignment="Center"  TextWrapping="Wrap" Margin="25,25,25,0" Cursor="Arrow" FontSize="15" FontFamily="Microsoft Sans Serif"></TextBox>
             <Label Content="{Binding Date}" HorizontalAlignment="Center"></Label>
         </StackPanel>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+        <Button Command="{Binding AddCommand}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                 ToolTip="MaterialDesignFloatingActionDarkButton"
+                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="10,0,0,75" Cursor="Hand">
+            <materialDesign:PackIcon
+                Kind="Plus" Width="30" Height="30"/>
+        </Button>
 
-            <Button Grid.Column="0" Content="ADD" Command="{Binding AddCommand}"></Button>
-            <Button Grid.Column="1" Content="DELETE" Command="{Binding DeleteCommand}"></Button>
-        </Grid>
+        <Button Command="{Binding DeleteCommand}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                 ToolTip="MaterialDesignFloatingActionDarkButton"
+                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="10,0,0,10" Cursor="Hand">
+            <materialDesign:PackIcon
+                Kind="Delete" Width="30" Height="30"/>
+        </Button>
 
-        <Button Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}">
-            <Button.Background>
-                <ImageBrush ImageSource="/sorticon.png"/>
-            </Button.Background>
+
+        <Button Padding="10" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Command="{Binding SortCommand, UpdateSourceTrigger=PropertyChanged}" Background="#FF673AB7" Cursor="Hand" Margin="0,0,0,0">
+            <materialDesign:PackIcon Kind="SortAlphabeticalVariant" />
         </Button>
 
     </Grid>
